@@ -31,6 +31,7 @@ public partial class UltraPlayContext : DbContext
             entity.HasKey(b => b.Id);
             entity.Property(b => b.Name).IsRequired();
             entity.Property(b => b.ExternalId).IsRequired();
+            entity.HasIndex(e => e.ExternalId).IsUnique();
             entity.Property(b => b.IsLive).IsRequired();
             entity.HasMany(b => b.Odds);
         });
@@ -40,6 +41,7 @@ public partial class UltraPlayContext : DbContext
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Name).IsRequired();
             entity.Property(e => e.ExternalId).IsRequired();
+            entity.HasIndex(e => e.ExternalId).IsUnique();
             entity.Property(e => e.IsLive).IsRequired();
             entity.Property(e => e.CategoryID).IsRequired();
             entity.HasMany(e => e.Matches);
@@ -50,6 +52,7 @@ public partial class UltraPlayContext : DbContext
             entity.HasKey(m => m.Id);
             entity.Property(m => m.Name).IsRequired();
             entity.Property(m => m.ExternalId).IsRequired();
+            entity.HasIndex(e => e.ExternalId).IsUnique();
             entity.Property(m => m.StartDate).IsRequired();
             entity.Property(m => m.MatchType).IsRequired();
             entity.HasMany(m => m.Bets);
@@ -60,6 +63,7 @@ public partial class UltraPlayContext : DbContext
             entity.HasKey(o => o.Id);
             entity.Property(o => o.Name).IsRequired();
             entity.Property(o => o.ExternalId).IsRequired();
+            entity.HasIndex(e => e.ExternalId).IsUnique();
             entity.Property(o => o.Value).IsRequired();
             entity.Property(o => o.SpecialBetValue);
         });
