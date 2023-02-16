@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using UltraPlayApi.DatabaseViews;
 
 namespace UltraPlayApi.Models;
 
@@ -20,6 +21,8 @@ public partial class UltraPlayContext : DbContext
     public virtual DbSet<Match> Matches { get; set; }
 
     public virtual DbSet<Odd> Odds { get; set; }
+
+    public virtual DbSet<AllFutureMarkets> AllFutureMarkets { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -60,6 +63,10 @@ public partial class UltraPlayContext : DbContext
             entity.Property(o => o.Value).IsRequired();
             entity.Property(o => o.SpecialBetValue);
         });
+
+        modelBuilder.Entity<AllFutureMarkets>()
+           .HasNoKey()
+           .ToView("vw_AllFutureMarkets");
 
         OnModelCreatingPartial(modelBuilder);
     }

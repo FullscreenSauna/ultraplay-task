@@ -15,7 +15,7 @@ public class Odd : IOdd
     public int ExternalId { get; set; }
 
     [XmlAttribute("Value")]
-    public decimal Value { get; set; }
+    public string Value { get; set; }
 
     [XmlAttribute("SpecialBetValue")]
     public string? SpecialBetValue { get; set; }
