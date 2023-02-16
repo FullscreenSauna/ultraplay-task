@@ -11,14 +11,14 @@ namespace UltraPlayApi.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class GetDataController : ControllerBase
+    public class XmlFeedDataController : ControllerBase
     {
         private readonly UltraPlayContext _context;
         private IEnumerable<IEvent> _events;
         private readonly IDatabaseRepository databaseRepository;
         private readonly IXmlFeedRepository xmlFeedRepository;
 
-        public GetDataController(UltraPlayContext _context,
+        public XmlFeedDataController(UltraPlayContext _context,
                                  IEnumerable<IEvent> _events,
                                  IDatabaseRepository databaseRepository,
                                  IXmlFeedRepository xmlFeedRepository)
