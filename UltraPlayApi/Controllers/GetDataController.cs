@@ -20,21 +20,27 @@ namespace UltraPlayApi.Controllers
         }
 
         [HttpGet]
-        public void GetData()
+        public async Task GetDataAsync()
         {
-            var responseMessage = new HttpResponseMessage();
-            using (var client = new HttpClient())
+            var timer = new PeriodicTimer(TimeSpan.FromSeconds(60));
+
+            while (await timer.WaitForNextTickAsync())
             {
-                responseMessage = client.GetAsync("https://sports.ultraplay.net/sportsxml?clientKey=9C5E796D-4D54-42FD-A535-D7E77906541A&sportId=2357&days=7").Result;
+
+                var responseMessage = new HttpResponseMessage();
+                using (var client = new HttpClient())
+                {
+                    responseMessage = client.GetAsync("https://sports.ultraplay.net/sportsxml?clientKey=9C5E796D-4D54-42FD-A535-D7E77906541A&sportId=2357&days=7").Result;
+                }
+
+                string xml = responseMessage.Content.ReadAsStringAsync().Result;
+
+                _events = FeedMapper.MapFromXmlString(xml);
+
+                _context.AddRange(_events);
+
+                _context.SaveChanges();
             }
-
-            string xml = responseMessage.Content.ReadAsStringAsync().Result;
-
-            _events = FeedMapper.MapFromXmlString(xml);
-
-            _context.AddRange(_events);
-
-            _context.SaveChanges();
         }
     }
 }
