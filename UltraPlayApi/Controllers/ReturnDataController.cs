@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace UltraPlayApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class ReturnDataController : ControllerBase
     {
@@ -19,7 +19,7 @@ namespace UltraPlayApi.Controllers
             this._context = _context;
         }
 
-        [HttpPost]
+        [HttpGet]
         [SwaggerResponse(200, "Success", typeof(List<AllFutureMarkets>))]
         public IActionResult GetAllFutureMatches()
         {

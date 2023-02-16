@@ -9,7 +9,7 @@ using UltraPlayApi.Interfaces.Repository;
 
 namespace UltraPlayApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class GetDataController : ControllerBase
     {
@@ -29,7 +29,7 @@ namespace UltraPlayApi.Controllers
             this.xmlFeedRepository = xmlFeedRepository;
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task GetDataAsync()
         {
             var timer = new PeriodicTimer(TimeSpan.FromSeconds(5));
