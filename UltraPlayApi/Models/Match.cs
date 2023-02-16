@@ -1,34 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Xml.Serialization;
+using UltraPlayApi.Interfaces;
 
 namespace UltraPlayApi.Models;
 
-public partial class Match
+public class Match : IMatch
 {
+    [XmlIgnore]
     public int Id { get; set; }
 
-    public string Name { get; set; } = null!;
+    [XmlAttribute("Name")]
+    public string Name { get; set; }
 
+    [XmlAttribute("ID")]
     public int ExternalId { get; set; }
 
-    /// <summary>
-    /// Id comming from xml feed
-    /// </summary>
+    [XmlAttribute("StartDate")]
     public DateTime StartDate { get; set; }
 
-    /// <summary>
-    /// Connects to the Id of Matches.MatchTypes
-    /// </summary>
-    public int MatchTypeId { get; set; }
+    [XmlAttribute("MatchType")]
+    public string MatchType { get; set; }
 
-    /// <summary>
-    /// Connects to the Id of Events.Events
-    /// </summary>
-    public int EventId { get; set; }
-
-    public virtual ICollection<Bet> Bets { get; } = new List<Bet>();
-
-    public virtual Event Event { get; set; } = null!;
-
-    public virtual MatchType MatchType { get; set; } = null!;
+    [XmlElement("Bet")]
+    public List<Bet> Bets { get; set; }
 }

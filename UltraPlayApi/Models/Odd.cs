@@ -1,27 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Xml.Serialization;
+using UltraPlayApi.Interfaces;
 
 namespace UltraPlayApi.Models;
 
-public partial class Odd
+public class Odd : IOdd
 {
+    [XmlIgnore]
     public int Id { get; set; }
 
-    public string Name { get; set; } = null!;
+    [XmlAttribute("Name")]
+    public string Name { get; set; }
 
-    /// <summary>
-    /// Id comming from xml feed
-    /// </summary>
+    [XmlAttribute("ID")]
     public int ExternalId { get; set; }
 
+    [XmlAttribute("Value")]
     public decimal Value { get; set; }
 
-    public decimal? SpecialBetValue { get; set; }
-
-    /// <summary>
-    /// Connects to the Id of Bets.Bets
-    /// </summary>
-    public int BetId { get; set; }
-
-    public virtual Bet Bet { get; set; } = null!;
+    [XmlAttribute("SpecialBetValue")]
+    public string? SpecialBetValue { get; set; }
 }

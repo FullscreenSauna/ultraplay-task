@@ -19,101 +19,46 @@ public partial class UltraPlayContext : DbContext
 
     public virtual DbSet<Match> Matches { get; set; }
 
-    public virtual DbSet<MatchType> MatchTypes { get; set; }
-
     public virtual DbSet<Odd> Odds { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Bet>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK_Bets_Bets");
-
-            entity.ToTable("Bets", "Bets");
-
-            entity.Property(e => e.ExternalId).HasComment("Id comming from xml feed");
-            entity.Property(e => e.MatchId).HasComment("Connects to the Id of Matches.Matches");
-            entity.Property(e => e.Name)
-                .HasMaxLength(128)
-                .IsUnicode(false);
-
-            entity.HasOne(d => d.Match).WithMany(p => p.Bets)
-                .HasForeignKey(d => d.MatchId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Bets_MatchId_Matches_Id");
+            entity.HasKey(b => b.Id);
+            entity.Property(b => b.Name).IsRequired();
+            entity.Property(b => b.ExternalId).IsRequired();
+            entity.Property(b => b.IsLive).IsRequired();
+            entity.HasMany(b => b.Odds);
         });
 
         modelBuilder.Entity<Event>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK_Events_Events");
-
-            entity.ToTable("Events", "Events");
-
-            entity.Property(e => e.CategoryId).HasComment("Id comming from xml feed");
-            entity.Property(e => e.ExternalId).HasComment("Id comming from xml feed");
-            entity.Property(e => e.Name)
-                .HasMaxLength(128)
-                .IsUnicode(false);
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Name).IsRequired();
+            entity.Property(e => e.ExternalId).IsRequired();
+            entity.Property(e => e.IsLive).IsRequired();
+            entity.Property(e => e.CategoryID).IsRequired();
+            entity.HasMany(e => e.Matches);
         });
 
         modelBuilder.Entity<Match>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK_Matches_Matches");
-
-            entity.ToTable("Matches", "Matches");
-
-            entity.Property(e => e.EventId).HasComment("Connects to the Id of Events.Events");
-            entity.Property(e => e.MatchTypeId).HasComment("Connects to the Id of Matches.MatchTypes");
-            entity.Property(e => e.Name)
-                .HasMaxLength(128)
-                .IsUnicode(false);
-            entity.Property(e => e.StartDate)
-                .HasComment("Id comming from xml feed")
-                .HasColumnType("datetime");
-
-            entity.HasOne(d => d.Event).WithMany(p => p.Matches)
-                .HasForeignKey(d => d.EventId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Matches_EventId_Events_Id");
-
-            entity.HasOne(d => d.MatchType).WithMany(p => p.Matches)
-                .HasForeignKey(d => d.MatchTypeId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Matches_MatchTypeId_MatchTypes_Id");
-        });
-
-        modelBuilder.Entity<MatchType>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK_Matches_MatchTypes");
-
-            entity.ToTable("MatchTypes", "Matches");
-
-            entity.Property(e => e.Id).ValueGeneratedNever();
-            entity.Property(e => e.Type)
-                .HasMaxLength(32)
-                .IsUnicode(false)
-                .HasComment("Prematch/Live");
+            entity.HasKey(m => m.Id);
+            entity.Property(m => m.Name).IsRequired();
+            entity.Property(m => m.ExternalId).IsRequired();
+            entity.Property(m => m.StartDate).IsRequired();
+            entity.Property(m => m.MatchType).IsRequired();
+            entity.HasMany(m => m.Bets);
         });
 
         modelBuilder.Entity<Odd>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK_Odds_Odds");
-
-            entity.ToTable("Odds", "Odds");
-
-            entity.Property(e => e.Id).ValueGeneratedNever();
-            entity.Property(e => e.BetId).HasComment("Connects to the Id of Bets.Bets");
-            entity.Property(e => e.ExternalId).HasComment("Id comming from xml feed");
-            entity.Property(e => e.Name)
-                .HasMaxLength(32)
-                .IsUnicode(false);
-            entity.Property(e => e.SpecialBetValue).HasColumnType("decimal(3, 1)");
-            entity.Property(e => e.Value).HasColumnType("decimal(3, 2)");
-
-            entity.HasOne(d => d.Bet).WithMany(p => p.Odds)
-                .HasForeignKey(d => d.BetId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Odds_BetId_Bets_Id");
+            entity.HasKey(o => o.Id);
+            entity.Property(o => o.Name).IsRequired();
+            entity.Property(o => o.ExternalId).IsRequired();
+            entity.Property(o => o.Value).IsRequired();
+            entity.Property(o => o.SpecialBetValue);
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -1,25 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Xml.Serialization;
+using UltraPlayApi.Interfaces;
 
 namespace UltraPlayApi.Models;
 
-public partial class Event
+[XmlRoot("Event")]
+public class Event : IEvent
 {
+    [XmlIgnore]
     public int Id { get; set; }
 
-    public string Name { get; set; } = null!;
+    [XmlAttribute("Name")]
+    public string Name { get; set; }
 
-    /// <summary>
-    /// Id comming from xml feed
-    /// </summary>
+    [XmlAttribute("ID")]
     public int ExternalId { get; set; }
 
+    [XmlAttribute("IsLive")]
     public bool IsLive { get; set; }
 
-    /// <summary>
-    /// Id comming from xml feed
-    /// </summary>
-    public int CategoryId { get; set; }
+    [XmlAttribute("CategoryID")]
+    public int CategoryID { get; set; }
 
-    public virtual ICollection<Match> Matches { get; } = new List<Match>();
+    [XmlElement("Match")]
+    public List<Match> Matches { get; set; }
 }

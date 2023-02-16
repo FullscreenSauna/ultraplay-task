@@ -12,9 +12,9 @@
     "UltraPlayApi": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchBrowser": false,
+      "launchBrowser": true,
       "launchUrl": "swagger",
-      "applicationUrl": "https://localhost:7105;http://localhost:5154",
+      "applicationUrl": "http://localhost:3000;http://localhost:5154",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

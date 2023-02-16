@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using UltraPlayApi.Interfaces;
 using UltraPlayApi.Models;
-using UltraPlayApi.Utils;
 
 namespace UltraPlayApi
 {
@@ -12,15 +11,18 @@ namespace UltraPlayApi
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddDbContext<UltraPlayContext>(options =>
-            {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("UltraplayConnection"));
-            });
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddScoped<IEnumerable<IEvent>, List<Event>>();
+
+            builder.Services.AddDbContext<UltraPlayContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("UltraplayConnection"));
+            });
 
             var app = builder.Build();
 
