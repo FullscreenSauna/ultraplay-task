@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using UltraPlayApi.Interfaces;
+using UltraPlayApi.Interfaces.Repository;
 using UltraPlayApi.Models;
+using UltraPlayApi.Repositories;
 
 namespace UltraPlayApi
 {
@@ -18,6 +20,8 @@ namespace UltraPlayApi
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddScoped<IEnumerable<IEvent>, List<Event>>();
+            builder.Services.AddScoped<IDatabaseRepository, DatabaseRepository>();
+            builder.Services.AddScoped<IXmlFeedRepository, XmlFeedRepository>();
 
             builder.Services.AddDbContext<UltraPlayContext>(options =>
             {
