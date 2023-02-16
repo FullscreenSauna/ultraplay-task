@@ -23,6 +23,7 @@ namespace UltraPlayApi.Controllers
         [SwaggerResponse(200, "Success", typeof(List<AllFutureMarkets>))]
         public IActionResult GetAllFutureMatches()
         {
+            //AllFutureMarkets is a representation of a view in the database
             var responseList = _context.AllFutureMarkets.ToList();
 
             return Ok(responseList);
@@ -32,6 +33,7 @@ namespace UltraPlayApi.Controllers
         [SwaggerResponse(200, "Success", typeof(List<AllMatches>))]
         public IActionResult GetSingleMatch(int id)
         {
+            //AllMatches is a representation of a view in the database
             var responseList = _context.AllMatches.Where(am => am.ExternalId == id).ToList();
 
             return Ok(responseList);

@@ -23,6 +23,7 @@ namespace UltraPlayApi.Repositories
         {
             XmlSerializer serializer = new XmlSerializer(typeof(XmlSports));
 
+            // create a new object that matches the xml structure
             var xmlParsed = new XmlSports();
 
             using (TextReader textReader = new StringReader(xml))
@@ -30,6 +31,7 @@ namespace UltraPlayApi.Repositories
                 xmlParsed = (XmlSports)serializer.Deserialize(textReader);
             }
 
+            // return only the Events, because they are the only thing that interests us
             return xmlParsed.Sports[0].Events;
         }
 
