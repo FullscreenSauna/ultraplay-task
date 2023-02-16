@@ -6,6 +6,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using UltraPlayApi.Repositories;
 using UltraPlayApi.Interfaces.Repository;
+using UltraPlayApi.Utils;
 
 namespace UltraPlayApi.Controllers
 {
@@ -32,7 +33,7 @@ namespace UltraPlayApi.Controllers
         [HttpPost]
         public async Task GetDataAsync()
         {
-            var timer = new PeriodicTimer(TimeSpan.FromSeconds(5));
+            var timer = new PeriodicTimer(TimeSpan.FromSeconds(SettingsReader.GetDataFromFeedDelay()));
 
             while (await timer.WaitForNextTickAsync())
             {

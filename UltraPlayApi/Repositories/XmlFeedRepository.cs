@@ -2,6 +2,7 @@
 using UltraPlayApi.Interfaces;
 using UltraPlayApi.Interfaces.Repository;
 using UltraPlayApi.Models;
+using UltraPlayApi.Utils;
 
 namespace UltraPlayApi.Repositories
 {
@@ -12,7 +13,7 @@ namespace UltraPlayApi.Repositories
             var responseMessage = new HttpResponseMessage();
             using (var client = new HttpClient())
             {
-                responseMessage = client.GetAsync("https://sports.ultraplay.net/sportsxml?clientKey=9C5E796D-4D54-42FD-A535-D7E77906541A&sportId=2357&days=7").Result;
+                responseMessage = client.GetAsync(SettingsReader.XmlFeedUrl()).Result;
             }
 
             return responseMessage.Content.ReadAsStringAsync().Result;
