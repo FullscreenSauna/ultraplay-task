@@ -12,8 +12,8 @@ using UltraPlayApi.Models;
 namespace UltraPlayApi.Migrations
 {
     [DbContext(typeof(UltraPlayContext))]
-    [Migration("20230216095801_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20230216134116_ChangeExternalIdToUnique")]
+    partial class ChangeExternalIdToUnique
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,32 @@ namespace UltraPlayApi.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("UltraPlayApi.DatabaseViews.AllFutureMarkets", b =>
+                {
+                    b.Property<string>("MarketName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MatchName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OddName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Odds")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("vw_AllFutureMarkets", (string)null);
+                });
 
             modelBuilder.Entity("UltraPlayApi.Models.Bet", b =>
                 {
@@ -47,6 +73,9 @@ namespace UltraPlayApi.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ExternalId")
+                        .IsUnique();
 
                     b.HasIndex("MatchId");
 
@@ -75,6 +104,9 @@ namespace UltraPlayApi.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ExternalId")
+                        .IsUnique();
 
                     b.ToTable("Events");
                 });
@@ -108,6 +140,9 @@ namespace UltraPlayApi.Migrations
 
                     b.HasIndex("EventId");
 
+                    b.HasIndex("ExternalId")
+                        .IsUnique();
+
                     b.ToTable("Matches");
                 });
 
@@ -132,12 +167,16 @@ namespace UltraPlayApi.Migrations
                     b.Property<string>("SpecialBetValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Value")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BetId");
+
+                    b.HasIndex("ExternalId")
+                        .IsUnique();
 
                     b.ToTable("Odds");
                 });

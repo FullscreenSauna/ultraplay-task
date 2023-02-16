@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace UltraPlayApi.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class ChangeExternalIdToUnique : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -78,7 +78,7 @@ namespace UltraPlayApi.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ExternalId = table.Column<int>(type: "int", nullable: false),
-                    Value = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SpecialBetValue = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BetId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -93,9 +93,21 @@ namespace UltraPlayApi.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Bets_ExternalId",
+                table: "Bets",
+                column: "ExternalId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Bets_MatchId",
                 table: "Bets",
                 column: "MatchId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Events_ExternalId",
+                table: "Events",
+                column: "ExternalId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Matches_EventId",
@@ -103,9 +115,21 @@ namespace UltraPlayApi.Migrations
                 column: "EventId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Matches_ExternalId",
+                table: "Matches",
+                column: "ExternalId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Odds_BetId",
                 table: "Odds",
                 column: "BetId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Odds_ExternalId",
+                table: "Odds",
+                column: "ExternalId",
+                unique: true);
         }
 
         /// <inheritdoc />

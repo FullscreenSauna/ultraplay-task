@@ -23,6 +23,7 @@ public partial class UltraPlayContext : DbContext
     public virtual DbSet<Odd> Odds { get; set; }
 
     public virtual DbSet<AllFutureMarkets> AllFutureMarkets { get; set; }
+    public virtual DbSet<AllMatches> AllMatches { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -71,6 +72,10 @@ public partial class UltraPlayContext : DbContext
         modelBuilder.Entity<AllFutureMarkets>()
            .HasNoKey()
            .ToView("vw_AllFutureMarkets");
+
+        modelBuilder.Entity<AllMatches>()
+           .HasNoKey()
+           .ToView("vw_AllMatches");
 
         OnModelCreatingPartial(modelBuilder);
     }

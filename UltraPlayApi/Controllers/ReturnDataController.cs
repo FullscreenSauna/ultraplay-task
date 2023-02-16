@@ -27,5 +27,14 @@ namespace UltraPlayApi.Controllers
 
             return Ok(responseList);
         }
+
+        [HttpGet("{id}")]
+        [SwaggerResponse(200, "Success", typeof(List<AllMatches>))]
+        public IActionResult GetSingleMatch(int id)
+        {
+            var responseList = _context.AllMatches.Where(am => am.ExternalId == id).ToList();
+
+            return Ok(responseList);
+        }
     }
 }
